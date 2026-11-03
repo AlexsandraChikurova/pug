@@ -9,7 +9,7 @@ let s=await readFile(f,'utf8');
 if(f.endsWith('.html')){s=s.replace(/((?:src|href)=")\/(?!\/)/g,'$1'+base+'/').replace('baseURL:"/"','baseURL:"'+base+'/"');}
 if(f.endsWith('.json') || f.endsWith('.html'))s=s.replaceAll('"/remote-api/','"'+base+'/remote-api/');
 if(f.endsWith('.js')) for(const asset of ['/Dog.json','/Balls.json']) s=s.replaceAll(JSON.stringify(asset),JSON.stringify(base+asset));
-if(f.endsWith('.css'))s=s.replace(/url\(["']?\/(?!\/)/g,'url('+base+'/');
+if(f.endsWith('.css') || f.endsWith('.html'))s=s.replace(/url\((["']?)\/(?!\/)/g,(_,quote)=>'url('+quote+base+'/');
 if(f.endsWith('/pug-motion.js')){
 s=s.replace("'/assets/hero-pug.png'",JSON.stringify(base+'/assets/hero-pug.png'));
 s=s.replace("window.location.pathname.replace(/\\/+$/, '') === ''", "window.location.pathname.replace(/\\/+$/, '') === "+JSON.stringify(base));
