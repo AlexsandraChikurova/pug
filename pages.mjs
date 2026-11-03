@@ -2,11 +2,13 @@ import {readFile,writeFile,readdir} from 'node:fs/promises';
 import './build.mjs';
 const repo=process.env.GITHUB_REPOSITORY?.split('/')[1] || '';
 const base=repo && !repo.endsWith('.github.io') ? '/'+repo : '';
+const version=process.env.GITHUB_SHA || 'local';
 async function walk(dir){for(const e of await readdir(dir,{withFileTypes:true})){
 const f=dir+'/'+e.name;if(e.isDirectory()){await walk(f);continue;}
 if(!/\.(html|css|json|js|mjs)$/.test(f))continue;
 let s=await readFile(f,'utf8');
 if(f.endsWith('.html')){s=s.replace(/((?:src|href)=")\/(?!\/)/g,'$1'+base+'/').replace('baseURL:"/"','baseURL:"'+base+'/"');}
+if(f.endsWith('.html'))for(const asset of ['/src/local-runtime.js','/src/pug-motion.js','/src/pug-motion.css'])s=s.replaceAll(base+asset,base+asset+'?v='+version);
 if(f.endsWith('.json') || f.endsWith('.html'))s=s.replaceAll('"/remote-api/','"'+base+'/remote-api/');
 if(f.endsWith('.js')) for(const asset of ['/Dog.json','/Balls.json']) s=s.replaceAll(JSON.stringify(asset),JSON.stringify(base+asset));
 if(f.endsWith('.css') || f.endsWith('.html'))s=s.replace(/url\((["']?)\/(?!\/)/g,(_,quote)=>'url('+quote+base+'/');
