@@ -1,0 +1,48 @@
+/* Only the homepage's original hero Lottie is replaced. Other dogs are untouched. */
+#white-dog__anim.main-page__white-dog.has-hero-pug > svg,
+#white-dog__anim.main-page__white-dog.has-hero-pug > div:not(.hero-pug) {
+  display: none !important;
+}
+
+.main-page__white-dog > .hero-pug {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  pointer-events: none;
+  contain: layout style;
+}
+
+.hero-pug__canvas,
+.hero-pug__fallback {
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.hero-pug__canvas {
+  top: 0;
+  height: 100%;
+  opacity: 0;
+}
+
+.hero-pug__fallback {
+  left: 11.0588235%; /* Same framing as the canvas's DESKTOP_LAYOUT. */
+  top: 11.1764706%;
+  width: 82%;
+  height: auto;
+}
+
+@media (max-width: 1024px) {
+  .hero-pug__fallback { left: 4.4117647%; top: 7.9411765%; width: 86%; }
+}
+
+.hero-pug.is-rendered .hero-pug__canvas { opacity: 1; }
+.hero-pug.is-rendered .hero-pug__fallback { visibility: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pug { animation: none !important; transition: none !important; }
+}

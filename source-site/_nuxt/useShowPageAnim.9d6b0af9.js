@@ -1,0 +1,1 @@
+import{u as a}from"./entry.66570678.js";import{b as t,B as r}from"./swiper-vue.b4b441a1.js";function m(o){const i=a("preloader-state"),n=a("animate-page-while-preloader"),s=a("navigation-state");i.value?r(()=>{t(()=>s.value,e=>{e&&o()})}):t(()=>n.value,e=>{e&&o()})}export{m as u};
