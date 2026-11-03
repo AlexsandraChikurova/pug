@@ -10,7 +10,10 @@ if(f.endsWith('.html')){s=s.replace(/((?:src|href)=")\/(?!\/)/g,'$1'+base+'/').r
 if(f.endsWith('.json') || f.endsWith('.html'))s=s.replaceAll('"/remote-api/','"'+base+'/remote-api/');
 if(f.endsWith('.js')) for(const asset of ['/Dog.json','/Balls.json']) s=s.replaceAll(JSON.stringify(asset),JSON.stringify(base+asset));
 if(f.endsWith('.css'))s=s.replace(/url\(["']?\/(?!\/)/g,'url('+base+'/');
-if(f.endsWith('/pug-motion.js'))s=s.replace("'/assets/hero-pug.png'",JSON.stringify(base+'/assets/hero-pug.png'));
+if(f.endsWith('/pug-motion.js')){
+s=s.replace("'/assets/hero-pug.png'",JSON.stringify(base+'/assets/hero-pug.png'));
+s=s.replace("window.location.pathname.replace(/\\/+$/, '') === ''", "window.location.pathname.replace(/\\/+$/, '') === "+JSON.stringify(base));
+}
 if(f.endsWith('/local-runtime.js')){
 s='const SITE_BASE='+JSON.stringify(base)+';\n'+s;
 s=s.replace("const method =", "if(SITE_BASE && url.pathname.startsWith(SITE_BASE+'/')) url.pathname=url.pathname.slice(SITE_BASE.length); const method =");
